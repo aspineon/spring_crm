@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -47,6 +48,7 @@ public class CustomerControllerTest {
 
     @Before
     public void setUp() throws Exception {
+        MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(customerController).build();
     }
 

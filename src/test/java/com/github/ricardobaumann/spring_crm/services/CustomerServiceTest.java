@@ -1,7 +1,7 @@
 package com.github.ricardobaumann.spring_crm.services;
 
-import com.github.ricardobaumann.spring_crm.CustomerRepository;
 import com.github.ricardobaumann.spring_crm.models.Customer;
+import com.github.ricardobaumann.spring_crm.repositories.CustomerRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -10,11 +10,11 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
-import static org.mockito.Mockito.*;
-
-import static org.hamcrest.core.Is.*;
+import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by ricardobaumann on 16/11/16.
