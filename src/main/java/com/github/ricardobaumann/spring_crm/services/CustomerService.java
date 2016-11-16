@@ -1,7 +1,7 @@
 package com.github.ricardobaumann.spring_crm.services;
 
-import com.github.ricardobaumann.spring_crm.CustomerRepository;
 import com.github.ricardobaumann.spring_crm.models.Customer;
+import com.github.ricardobaumann.spring_crm.repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,4 +21,7 @@ public class CustomerService {
         return customerRepository.save(customer);
     }
 
+    public Customer getCustomer(Long id) {
+        return customerRepository.findOne(id);
+    }
 }
