@@ -18,4 +18,6 @@ public class AppointmentDTO {
 
     private Long id;
 
+    private Integer rating;
+
 }

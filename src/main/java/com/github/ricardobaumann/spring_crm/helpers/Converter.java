@@ -1,12 +1,12 @@
 package com.github.ricardobaumann.spring_crm.helpers;
 
-import com.github.ricardobaumann.spring_crm.Application;
 import com.github.ricardobaumann.spring_crm.dtos.AppointmentDTO;
 import com.github.ricardobaumann.spring_crm.models.Appointment;
 import com.github.ricardobaumann.spring_crm.services.CustomerService;
 import lombok.SneakyThrows;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 /**
@@ -29,5 +29,9 @@ public class Converter {
         Appointment appointment = convert(appointmentDTO, Appointment.class);
         appointment.setCustomer(customerService.getCustomer(appointmentDTO.getCustomerId()));
         return appointment;
+    }
+
+    public Page<AppointmentDTO> asAppointmentDTOs(Page<Appointment> page) {
+        return page.map(appointment -> Converter.this.convert(appointment,AppointmentDTO.class));
     }
 }

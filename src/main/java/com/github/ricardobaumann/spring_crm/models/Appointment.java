@@ -26,4 +26,6 @@ public class Appointment {
     @NotNull
     private Customer customer;
 
+    private Integer rating;
+
 }
