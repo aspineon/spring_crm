@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 /**
+ * Business service class for appointments
  * Created by ricardobaumann on 16/11/16.
  */
 @Service
@@ -30,5 +31,14 @@ public class AppointmentService {
 
     public Page<Appointment> getFutureCustomerPage(Customer customer, Pageable pageable) {
         return appointmentRepository.findByCustomerAndScheduledAtGreaterThan(customer,new Date(),pageable);
+    }
+
+    public Appointment getAppointment(Long id) {
+        return appointmentRepository.findOne(id);
+    }
+
+    public Appointment updateRating(Appointment appointment, Integer rating) {
+        appointment.setRating(rating);
+        return appointmentRepository.save(appointment);
     }
 }

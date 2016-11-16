@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 /**
+ * Appointment database model
  * Created by ricardobaumann on 16/11/16.
  */
 @Entity

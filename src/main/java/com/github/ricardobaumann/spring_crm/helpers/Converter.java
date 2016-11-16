@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 
 /**
+ * Helpers for model and dto converting
  * Created by ricardobaumann on 16/11/16.
  */
 @Component
