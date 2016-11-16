@@ -3,6 +3,8 @@ package com.github.ricardobaumann.spring_crm.services;
 import com.github.ricardobaumann.spring_crm.models.Appointment;
 import com.github.ricardobaumann.spring_crm.repositories.AppointmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -19,6 +21,10 @@ public class AppointmentService {
     public Appointment createAppointment(Appointment appointment) {
         appointment.setCreatedAt(new Date());
         return appointmentRepository.save(appointment);
+    }
+
+    public Page<Appointment> getPage(Date scheduledAt, Pageable pageable) {
+        return appointmentRepository.findByScheduledAtGreaterThan(scheduledAt!=null ? scheduledAt : new Date(),pageable);
     }
 
 }

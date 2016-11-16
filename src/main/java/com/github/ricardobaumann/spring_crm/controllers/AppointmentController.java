@@ -5,6 +5,10 @@ import com.github.ricardobaumann.spring_crm.helpers.Converter;
 import com.github.ricardobaumann.spring_crm.models.Appointment;
 import com.github.ricardobaumann.spring_crm.services.AppointmentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +36,15 @@ public class AppointmentController {
         appointment = appointmentService.createAppointment(appointment);
 
         return converter.convert(appointment,AppointmentDTO.class);
+    }
+
+    @RequestMapping(method = RequestMethod.GET)
+    public Page<AppointmentDTO> getPage(@RequestParam(name = "page",defaultValue = "0") Integer page,
+                                        @RequestParam(name = "size", defaultValue = "20") Integer size,
+                                        @RequestParam(name="startAt", required = false) Date startAt) {
+        Pageable pageable = new PageRequest(page, size, Sort.Direction.DESC, "id");
+
+        return converter.asAppointmentDTOs(appointmentService.getPage(startAt,pageable));
     }
 
 
