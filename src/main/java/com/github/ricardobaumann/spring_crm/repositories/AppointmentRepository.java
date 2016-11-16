@@ -1,6 +1,7 @@
 package com.github.ricardobaumann.spring_crm.repositories;
 
 import com.github.ricardobaumann.spring_crm.models.Appointment;
+import com.github.ricardobaumann.spring_crm.models.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -16,5 +17,5 @@ public interface AppointmentRepository extends PagingAndSortingRepository<Appoin
 
     Page<Appointment> findByScheduledAtGreaterThan(Date scheduledAt, Pageable pageable);
 
-
+    Page<Appointment> findByCustomerAndScheduledAtGreaterThan(Customer customer,Date scheduledAt, Pageable pageable);
 }

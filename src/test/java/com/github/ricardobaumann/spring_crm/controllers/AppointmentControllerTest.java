@@ -52,6 +52,9 @@ public class AppointmentControllerTest {
     @Mock
     private AppointmentService appointmentService;
 
+    @Mock
+    private CustomerService customerService;
+
     @InjectMocks
     private AppointmentController appointmentController;
 
@@ -176,6 +179,49 @@ public class AppointmentControllerTest {
 
 
         verify(appointmentService).getPage(sheduledAt,pageable);
+        verify(converter).asAppointmentDTOs(resultPage);
+
+    }
+
+    @Test
+    public void getCustomerPage() throws Exception {
+        int page = 0;
+        int size = 20;
+        Long id = 1L;
+        Long customerId = 20L;
+        Customer customer = new Customer();
+        customer.setId(customerId);
+
+        Integer rating = 10;
+        Pageable pageable = new PageRequest(page, size, Sort.Direction.DESC, "id");
+
+        Appointment appointment = new Appointment();
+        appointment.setId(id);
+
+        AppointmentDTO outputAppointmentDTO = new AppointmentDTO();
+        outputAppointmentDTO.setId(id);
+        outputAppointmentDTO.setRating(rating);
+        outputAppointmentDTO.setScheduledAt(new Date());
+
+        List<Appointment> appointments = Arrays.asList(appointment);
+        Page<Appointment> resultPage = new PageImpl<>(appointments);
+
+        Page<AppointmentDTO> returnPage = new PageImpl<>(Arrays.asList(outputAppointmentDTO));
+
+        when(customerService.getCustomer(customerId)).thenReturn(customer);
+        when(appointmentService.getFutureCustomerPage(customer,pageable)).thenReturn(resultPage);
+        when(converter.asAppointmentDTOs(resultPage)).thenReturn(returnPage);
+
+        mockMvc.perform(get("/appointments/customers/{customer_id}",customerId)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id",is(id.intValue())))
+                .andExpect(jsonPath("$.content[0].scheduledAt",is(notNullValue())))
+                .andExpect(jsonPath("$.content[0].rating",is(rating)));
+
+
+        verify(appointmentService).getFutureCustomerPage(customer,pageable);
         verify(converter).asAppointmentDTOs(resultPage);
 
     }
