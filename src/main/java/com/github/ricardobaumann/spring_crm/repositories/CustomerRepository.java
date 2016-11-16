@@ -1,4 +1,4 @@
-package com.github.ricardobaumann.spring_crm;
+package com.github.ricardobaumann.spring_crm.repositories;
 
 import com.github.ricardobaumann.spring_crm.models.Customer;
 import org.springframework.data.repository.PagingAndSortingRepository;

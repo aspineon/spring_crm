@@ -23,12 +23,13 @@ public class CustomerController {
 
     @RequestMapping(method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
+    public CustomerDTO postCustomer(@RequestBody CustomerDTO customerDTO) {
 
         Customer customer = converter.convert(customerDTO,Customer.class);
         customer = customerService.create(customer);
 
         return converter.convert(customer,CustomerDTO.class);
     }
+
 
 }
