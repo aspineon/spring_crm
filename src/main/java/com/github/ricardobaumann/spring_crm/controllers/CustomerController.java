@@ -5,10 +5,8 @@ import com.github.ricardobaumann.spring_crm.helpers.Converter;
 import com.github.ricardobaumann.spring_crm.models.Customer;
 import com.github.ricardobaumann.spring_crm.services.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * Created by ricardobaumann on 16/11/16.
@@ -24,6 +22,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
     public CustomerDTO createCustomer(@RequestBody CustomerDTO customerDTO) {
 
         Customer customer = converter.convert(customerDTO,Customer.class);
