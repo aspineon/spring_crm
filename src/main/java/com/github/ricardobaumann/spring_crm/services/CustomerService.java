@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 /**
+ * Business service class for customers
  * Created by ricardobaumann on 16/11/16.
  */
 @Service

@@ -1,7 +1,6 @@
 package com.github.ricardobaumann.spring_crm.controllers;
 
 import com.github.ricardobaumann.spring_crm.dtos.AppointmentDTO;
-import com.github.ricardobaumann.spring_crm.dtos.CustomerDTO;
 import com.github.ricardobaumann.spring_crm.helpers.Converter;
 import com.github.ricardobaumann.spring_crm.helpers.JsonHelper;
 import com.github.ricardobaumann.spring_crm.models.Appointment;
@@ -27,11 +26,12 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.Is.is;
-import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -223,6 +223,56 @@ public class AppointmentControllerTest {
 
         verify(appointmentService).getFutureCustomerPage(customer,pageable);
         verify(converter).asAppointmentDTOs(resultPage);
+
+    }
+
+    @Test
+    public void patchAppointmentRatingSuccessfully() throws Exception {
+        Long id = 1L;
+        Integer rating = 1;
+        Appointment appointment = new Appointment();
+        appointment.setId(id);
+        appointment.setRating(rating);
+
+        AppointmentDTO appointmentDTO = new AppointmentDTO();
+        appointmentDTO.setRating(rating);
+
+        when(appointmentService.getAppointment(id)).thenReturn(appointment);
+        when(converter.convert(appointment,AppointmentDTO.class)).thenReturn(appointmentDTO);
+        when(appointmentService.updateRating(appointment,rating)).thenReturn(appointment);
+
+        mockMvc.perform(patch("/appointments/{id}",id)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonHelper.objectToString(appointmentDTO)))
+                .andExpect(status().isOk());
+
+        verify(appointmentService).getAppointment(id);
+        verify(converter).convert(appointment,AppointmentDTO.class);
+        verify(appointmentService).updateRating(appointment,rating);
+
+
+    }
+
+    @Test
+    public void patchUnexistentAppointmentRating() throws Exception {
+        Long id = 1L;
+        Integer rating = 1;
+
+        AppointmentDTO appointmentDTO = new AppointmentDTO();
+        appointmentDTO.setRating(rating);
+
+        when(appointmentService.getAppointment(id)).thenReturn(null);
+
+        mockMvc.perform(patch("/appointments/{id}",id)
+                .accept(MediaType.APPLICATION_JSON)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(jsonHelper.objectToString(appointmentDTO)))
+                .andExpect(status().isNotFound());
+
+        verify(appointmentService).getAppointment(id);
+
+
 
     }
 

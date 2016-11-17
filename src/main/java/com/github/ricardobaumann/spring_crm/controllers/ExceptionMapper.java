@@ -4,6 +4,7 @@
 package com.github.ricardobaumann.spring_crm.controllers;
 
 import com.github.ricardobaumann.spring_crm.dtos.ErrorDTO;
+import com.github.ricardobaumann.spring_crm.exceptions.NotFoundException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.transaction.TransactionSystemException;
@@ -13,6 +14,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 
 /**
+ * Controller advice to handle exceptions and map it to http status
  * @author ricardobaumann
  *
  */
@@ -37,5 +39,12 @@ public class ExceptionMapper {
 		return new ErrorDTO(t.getCause().getMessage());
 	}
 
-	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(NotFoundException.class)
+	public @ResponseBody
+	ErrorDTO handleNotFound(Throwable t) {
+		return new ErrorDTO("Resource not found");
+	}
+
+
 }

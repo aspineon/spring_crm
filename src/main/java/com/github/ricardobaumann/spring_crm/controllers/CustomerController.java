@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 /**
+ * Controller to handle customer endpoints
  * Created by ricardobaumann on 16/11/16.
  */
 @RestController

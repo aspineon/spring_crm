@@ -11,10 +11,9 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Date;
 
-import static org.junit.Assert.*;
-
-import static org.mockito.Mockito.*;
-import static org.hamcrest.core.Is.*;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created by ricardobaumann on 16/11/16.
